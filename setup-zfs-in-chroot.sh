@@ -58,7 +58,7 @@ if [ -n "$SSH_PUB_KEY_URL" ]; then
     curl -sSLo /root/.ssh/authorized_keys "$SSH_PUB_KEY_URL"
     chmod 600 /root/.ssh/authorized_keys
 else
-    sed '/^#PermitRootLogin prohibit-password/a\
+    sed -i '/^#PermitRootLogin prohibit-password/a\
 PermitRootLogin yes
 ' /etc/ssh/sshd_config
 fi
