@@ -151,6 +151,7 @@ hostname "$HOSTNAME"
 hostname > /mnt/etc/hostname
 echo -e "127.0.0.1\\t$HOSTNAME" >> /mnt/etc/hosts
 
+IFACE=${IFACE:-}
 if [ -z "$IFACE" ]; then
     IFACE=$(ip -br link show | grep -o '^en[^ ]*')
 fi
