@@ -13,6 +13,8 @@ if [ -z "$DISK" ]; then
     exit 2
 fi
 
+ROOT_PART_SIZE=${ROOT_PART_SIZE:-0}
+
 apt-get update
 DEBIAN_FRONTEND=noninteractive apt-get install --yes debootstrap gdisk zfsutils-linux vim
 systemctl stop zed
@@ -21,7 +23,7 @@ wipefs -a $DISK
 sgdisk -n1:1M:+512M -t1:EF00 $DISK
 sgdisk -n2::+2G -t2:8200 $DISK
 sgdisk -n3::+2G -t3:BE00 $DISK
-sgdisk -n4::+10G -t4:8309 $DISK
+sgdisk -n4::$ROOT_PART_SIZE -t4:8309 $DISK
 
 if [ -z "$DISK_PART" ]; then
     if [ -e "${DISK}1" ]; then
