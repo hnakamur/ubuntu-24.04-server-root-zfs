@@ -44,6 +44,9 @@ if [ -z "$DISK_PART" ]; then
     fi
 fi
 
+wipefs -a ${DISK_PART}3
+wipefs -a ${DISK_PART}4
+
 sync
 sleep 5
 
