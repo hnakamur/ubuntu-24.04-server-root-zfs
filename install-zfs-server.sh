@@ -32,6 +32,8 @@ sgdisk -n3::+2G -t3:BE00 $DISK
 sgdisk -n4::$ROOT_PART_SIZE -t4:8309 $DISK
 
 partprobe
+sync
+sleep 5
 
 DISK_PART=${DISK_PART:-}
 if [ -z "$DISK_PART" ]; then
