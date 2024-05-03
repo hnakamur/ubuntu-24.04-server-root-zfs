@@ -13,6 +13,11 @@ if [ -z "$DISK" ]; then
     exit 2
 fi
 
+if [ ! -e "$DISK" ]; then
+    >&2 echo DISK: $DISK does not exist.
+    exit 2
+fi
+
 ROOT_PART_SIZE=${ROOT_PART_SIZE:-0}
 
 apt-get update
