@@ -1,4 +1,5 @@
 #!/bin/bash -x
+set -eu
 
 if [ -z "$HOSTNAME" ]; then
     >&2 echo HOSTNAME environment variable must be set.
