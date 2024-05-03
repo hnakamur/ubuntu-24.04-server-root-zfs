@@ -25,14 +25,6 @@ mkdir /boot/efi/grub /boot/grub
 echo /boot/efi/grub /boot/grub none defaults,bind 0 0 >> /etc/fstab
 mount /boot/grub
 
-# create directories to avoid the following message:
-# info: The home dir /var/lib/usbmux you specified can't be accessed: No such file or directory
-# ERROR couldn't connect to zsys daemon: connection error: desc = "transport: Error while dialing: dial unix /run/zsysd.sock: connect: no such file or directory"                                                           (Reading database ... 29679 files and directories currently installed.)
-# Failed to open connection to "system" message bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
-# invoke-rc.d: initscript dbus, action "reload" failed.
-# start-stop-daemon: unable to stat /usr/libexec/polkitd (No such file or directory)
-#mkdir -p /var/lib/usbmux /run/dbus /usr/libexec
-
 # Install GRUB/Linux/ZFS for UEFI booting:
 DEBIAN_FRONTEND=noninteractive apt-get install --yes \
     grub-efi-amd64 grub-efi-amd64-signed linux-image-generic \
