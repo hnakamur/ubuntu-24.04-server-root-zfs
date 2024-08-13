@@ -1,6 +1,4 @@
 #!/bin/bash -x
-set -eu
-
 if [ -z "$HOSTNAME" ]; then
     >&2 echo HOSTNAME environment variable must be set.
     exit 2
@@ -9,10 +7,15 @@ if [ -z "$ROOT_PASSWORD" ]; then
     >&2 echo ROOT_PASSWORD environment variable must be set.
     exit 2
 fi
+if [ -z "$SSH_PUB_KEY_URL" ]; then
+    >&2 echo SSH_PUB_KEY_URL environment variable must be set.
+    exit 2
+fi
 if [ -z "$DISK" ]; then
     >&2 echo DISK environment variable must be set.
     exit 2
 fi
+set -eu
 
 if [ ! -e "$DISK" ]; then
     >&2 echo DISK: $DISK does not exist.
