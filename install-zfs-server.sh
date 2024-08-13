@@ -177,7 +177,7 @@ mount --make-private --rbind /dev  /mnt/dev
 mount --make-private --rbind /proc /mnt/proc
 mount --make-private --rbind /sys  /mnt/sys
 
-cp /tmp/setup-zfs-in-chroot.sh /mnt/tmp/
+cp ./setup-zfs-in-chroot.sh /mnt/tmp/
 
 chroot /mnt /usr/bin/env \
     DISK_PART="$DISK_PART" SSH_PUB_KEY_URL="$SSH_PUB_KEY_URL" ROOT_PASSWORD="$ROOT_PASSWORD" \
