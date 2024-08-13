@@ -60,7 +60,7 @@ grub-probe /boot
 update-initramfs -c -k all
 
 sed -i.orig 's/^GRUB_TIMEOUT_STYLE=hidden/#&/
-s/^\(GRUB_TIMEOUT=\).*/\1=5/
+s/^\(GRUB_TIMEOUT=\).*/\15/
 /^GRUB_TIMEOUT=/a\
 GRUB_RECORDFAIL_TIMEOUT=5
 s/^\(GRUB_CMDLINE_LINUX_DEFAULT=\)"quiet splash"/\1""/
