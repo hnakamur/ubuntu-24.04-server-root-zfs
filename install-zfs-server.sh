@@ -165,7 +165,9 @@ network:
   ethernets:
     $IFACE:
       dhcp4: true
+      dhcp-identifier: mac
 EOF
+chmod 600 /mnt/etc/netplan/99-config.yaml
 
 cat > /mnt/etc/apt/sources.list <<'EOF'
 # Ubuntu sources have moved to the /etc/apt/sources.list.d/ubuntu.sources
