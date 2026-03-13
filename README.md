@@ -21,18 +21,19 @@ Ubuntu 24.04のサーバー版をrootパーティションをZFSでインスト�
    ```
    make boot_from_cdrom
    ```
+   ssh接続するためにホストの10022番ポートをVMの22番にポートフォワードするようにしています。
+   10022番ポートを使用中などでホスト側のポート番号を変更したい場合は以下のように実行してください。またその場合は後続のコマンドでも同様に指定してください。
+   ```
+   SSH_PORT_FORWARD_PORT=【空いているポート番号】 make boot_from_cdrom
+   ```
 2. DHCPでアドレスを取得するところまで進んだら、HelpのEnter Shellを選んでシェルに入ります。
 3. SSHの公開鍵を`/root/.ssh/authorized_keys`に保存します。例えば以下のように実行します。
    ```
    curl -sSLo /root/.ssh/authorized_keys https://github.com/hnakamur.keys
    ```
-4. 以下のコマンドを実行しIPアドレスを確認します。
-   ```
-   ip a
-   ```
 5. 別の端末を開いて以下のコマンドを実行し、インストールスクリプトをコピーして実行します。
    ```
-   IP=上で確認したアドレス make install
+   make install
    ```
 6. インストールが終わってpoweroffが実行されたら、ISOイメージを起動した端末に戻ってCtrl-Cで終了します。
 7. 以下のコマンドを実行してディスクから起動します。

@@ -22,6 +22,11 @@ if [ ! -e "$DISK" ]; then
     exit 2
 fi
 
+if [ ! -f ./setup-zfs-in-chroot.sh -a ! -f /tmp/setup-zfs-in-chroot.sh ]; then
+    >&2 echo Error setup-zfs-in-chroot.sh not found in ./ nor /tmp/.
+    exit 1
+fi
+
 ROOT_PART_SIZE=${ROOT_PART_SIZE:-0}
 USE_LUKS_RPOOL=${USE_LUKS_RPOOL:-}
 
@@ -198,7 +203,14 @@ mount --make-private --rbind /dev  /mnt/dev
 mount --make-private --rbind /proc /mnt/proc
 mount --make-private --rbind /sys  /mnt/sys
 
-cp ./setup-zfs-in-chroot.sh /mnt/tmp/
+if [ -f ./setup-zfs-in-chroot.sh ]; then
+    cp ./setup-zfs-in-chroot.sh /mnt/tmp/
+elif [ -f /tmp/setup-zfs-in-chroot.sh ]; then
+    cp /tmp/setup-zfs-in-chroot.sh /mnt/tmp/
+else
+    >&2 echo Error setup-zfs-in-chroot.sh not found in ./ nor /tmp/.
+    exit 1
+fi
 
 chroot /mnt /usr/bin/env \
     DISK_PART="$DISK_PART" SSH_PUB_KEY_URL="$SSH_PUB_KEY_URL" ROOT_PASSWORD="$ROOT_PASSWORD" \
