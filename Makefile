@@ -16,7 +16,7 @@ boot_from_cdrom:
 	sudo apt-get install --yes ovmf
 	cp /usr/share/OVMF/OVMF_VARS_4M.fd OVMF_VARS_4M.fd
 	sudo qemu-system-x86_64 -drive file=/var/lib/libvirt/images/${VM_NAME}.qcow2,if=virtio \
-		-m 4096 -smp 2 -net nic -net bridge,br=virbr0 -enable-kvm \
+		-m 4096 -smp 2 -net nic -netdev user,id=internet -enable-kvm \
 		-drive if=pflash,format=raw,readonly=on,file=/usr/share/OVMF/OVMF_CODE_4M.fd \
 		-drive if=pflash,format=raw,file=OVMF_VARS_4M.fd \
 		-boot d -cdrom $$PWD/${ISO_FILENAME}
@@ -44,7 +44,7 @@ ssh:
 
 boot_from_disk:
 	sudo qemu-system-x86_64 -drive file=/var/lib/libvirt/images/${VM_NAME}.qcow2,if=virtio \
-		-m 4096 -smp 2 -net nic -net bridge,br=virbr0 -enable-kvm \
+		-m 4096 -smp 2 -net nic -netdev user,id=internet -enable-kvm \
 		-drive if=pflash,format=raw,readonly=on,file=/usr/share/OVMF/OVMF_CODE_4M.fd \
 		-drive if=pflash,format=raw,file=OVMF_VARS_4M.fd \
 
