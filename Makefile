@@ -1,9 +1,10 @@
-ISO_FILENAME ?= ubuntu-24.04-live-server-amd64.iso
-VM_NAME ?= numbatserver
-HOSTNAME ?= sunshine-03
+ISO_FILENAME ?= ubuntu-25.10-live-server-amd64.iso
+VM_NAME ?= ubuntu-zfs01
+HOSTNAME ?= ubuntu01
 DISK ?= /dev/vda
 ROOT_PASSWORD ?= root
 SSH_PUB_KEY_URL ?= https://github.com/hnakamur.keys
+USE_LUKS_RPOOL ?=
 
 # See
 # https://gihyo.jp/admin/serial/01/ubuntu-recipe/0441

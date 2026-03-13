@@ -23,6 +23,7 @@ if [ ! -e "$DISK" ]; then
 fi
 
 ROOT_PART_SIZE=${ROOT_PART_SIZE:-0}
+USE_LUKS_RPOOL=${USE_LUKS_RPOOL:-}
 
 apt-get update
 DEBIAN_FRONTEND=noninteractive apt-get install --yes debootstrap gdisk zfsutils-linux vim
@@ -103,6 +104,21 @@ zpool create \
     -O relatime=on \
     -O canmount=off -O mountpoint=/ -R /mnt \
     rpool "${DISK_PART}4"
+
+if [ -n "$USE_LUKS_RPOOL" ]; then
+  DEBIAN_FRONTEND=noninteractive apt-get install --yes cryptsetup
+  cryptsetup luksFormat -c aes-xts-plain64 -s 512 -h sha256 "${DISK_PART}3"
+  cryptsetup luksOpen "${DISK_PART}3" luks1
+  zpool create \
+    -o ashift=12 \
+    -o autotrim=on \
+    -O acltype=posixacl -O xattr=sa -O dnodesize=auto \
+    -O compression=off \
+    -O normalization=formD \
+    -O relatime=on \
+    -O canmount=off -O mountpoint=/ -R /mnt \
+    rpool /dev/mapper/luks1
+fi
 
 zfs create -o canmount=off -o mountpoint=none rpool/ROOT
 zfs create -o canmount=off -o mountpoint=none bpool/BOOT
@@ -186,6 +202,7 @@ cp ./setup-zfs-in-chroot.sh /mnt/tmp/
 
 chroot /mnt /usr/bin/env \
     DISK_PART="$DISK_PART" SSH_PUB_KEY_URL="$SSH_PUB_KEY_URL" ROOT_PASSWORD="$ROOT_PASSWORD" \
+    USE_LUKS_RPOOL="$USE_LUKS_RPOOL" \
     bash --login \
     -x /tmp/setup-zfs-in-chroot.sh
 

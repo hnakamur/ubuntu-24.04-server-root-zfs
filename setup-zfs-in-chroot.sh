@@ -4,6 +4,12 @@ set -eu
 apt-get update
 locale-gen --purge en_US.UTF-8 ja_JP.UTF-8
 DEBIAN_FRONTEND=noninteractive apt-get install --yes vim
+if [ -n "$USE_LUKS_RPOOL" ]
+  DEBIAN_FRONTEND=noninteractive apt-get install --yes cryptsetup
+
+  echo luks1 /dev/disk/by-uuid/$(blkid -s UUID -o value ${DISK_PART}3) \
+    none luks,discard,initramfs > /etc/crypttab
+fi
 
 ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
 dpkg-reconfigure -f noninteractive tzdata
