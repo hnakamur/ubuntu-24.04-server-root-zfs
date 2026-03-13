@@ -34,7 +34,7 @@ mount /boot/grub
 # Install GRUB/Linux/ZFS for UEFI booting:
 DEBIAN_FRONTEND=noninteractive apt-get install --yes \
     grub-efi-amd64 grub-efi-amd64-signed linux-image-generic \
-    shim-signed zfs-initramfs zsys
+    shim-signed zfs-initramfs
 
 apt purge --yes os-prober
 
