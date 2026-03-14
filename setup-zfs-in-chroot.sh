@@ -47,8 +47,14 @@ echo /dev/disk/by-uuid/$(blkid -s UUID -o value "${DISK_PART}2") \
     none swap discard 0 0 >> /etc/fstab
 swapon -a
 
-cp /usr/share/systemd/tmp.mount /etc/systemd/system/
-systemctl enable tmp.mount
+if [ -f /usr/share/systemd/tmp.mount ]; then
+    cp /usr/share/systemd/tmp.mount /etc/systemd/system/
+    systemctl enable tmp.mount
+else
+    # TODO: Use systemd-tmpfiles
+    # Ubuntu 25.10 does not have /usr/share/systemd/tmp.mount.
+    :
+fi
 
 DEBIAN_FRONTEND=noninteractive apt-get install --yes openssh-server
 if [ -n "$SSH_PUB_KEY_URL" ]; then
